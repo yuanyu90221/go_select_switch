@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"time"
+)
 
 func main() {
 	i = 100
@@ -22,6 +25,19 @@ func main() {
 		fmt.Println("random 02")
 	default:
 		fmt.Println("exit")
+	}
+	timeout := make(chan bool, 1)
+	go func() {
+		time.Sleep(2 * time.Second)
+		timeout <- true
+	}()
+	ch1 := make(chan int)
+	select {
+	case <-ch1:
+	case <-timeout:
+		fmt.Println("timeout 01")
+	case <-time.After(time.Second * 1):
+		fmt.Println("timeout 02")
 	}
 }
 
