@@ -49,6 +49,30 @@ func main() {
 	default:
 		fmt.Println("channel blocking")
 	}
+
+	i := 0
+	ch3 := make(chan string, 0)
+	defer func() {
+		close(ch)
+	}()
+
+	go func() {
+	LOOP:
+		for {
+			time.Sleep(1 * time.Second)
+			fmt.Println(time.Now().Unix())
+			i++
+
+			select {
+			case m := <-ch3:
+				println(m)
+				break LOOP
+			default:
+			}
+		}
+	}()
+	time.Sleep(time.Second * 4)
+	ch3 <- "stop"
 }
 
 var (
