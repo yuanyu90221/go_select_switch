@@ -39,6 +39,16 @@ func main() {
 	case <-time.After(time.Second * 1):
 		fmt.Println("timeout 02")
 	}
+
+	ch2 := make(chan int, 2)
+	ch2 <- 1
+	select {
+	case ch2 <- 2: // if buffered filled  this will not executed
+		fmt.Println("channel value is", <-ch2)
+		fmt.Println("channel value is", <-ch2)
+	default:
+		fmt.Println("channel blocking")
+	}
 }
 
 var (
