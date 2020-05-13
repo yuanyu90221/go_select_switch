@@ -7,6 +7,7 @@ func main() {
 	convert(i)
 	i = "foo"
 	convert(i)
+	convert(float32(10.0))
 }
 
 var (
@@ -21,5 +22,7 @@ func convert(i interface{}) {
 		println("i is string", t)
 	case float64:
 		println("i is float64", t)
+	default:
+		println("type not found")
 	}
 }
